@@ -1,19 +1,28 @@
-// This file was decompiled using SASCM.ini published on 2022-03-20
 {$CLEO .cs}
-
 
 const
     Car0 = 0@
     Car1 = 1@
     Car2 = 2@
     Car3 = 3@
-    Driver0 = 4@
     Driver1 = 5@
     Driver2 = 6@
     Driver3 = 7@
+    Group1 = 8@
+    Group2 = 9@
+    Group3 = 10@
+    TempGroup = 29@
     TempChar = 30@
     PedType_Gsf = 8
 end                                                
+
+/**
+ * A minimission/task "CJKING" - Type cheat "CJKING" to activate
+ * COMMANDS:
+ * "TTYY": When aimed at someone and pressed this command, all members attack that character
+ * "TTRR": If player on foot, follow him; If in main car, get in there respective cars and follow him
+ * "TTXX": Disband groups & end minimision
+ */
 
 nop
 :start
@@ -21,9 +30,11 @@ wait 0
 if Player.IsPlaying($PLAYER_CHAR)
 goto_if_false @start                                              
 
+
 wait 0
-if Pad.TestCheat("GANIM")
+if Pad.TestCheat("CJKING")
 goto_if_false @start
+
 
 :loadingmodels
 wait 0
@@ -65,7 +76,7 @@ wait 0
 Streaming.LoadSpecialCharacter('SWEET', 1)   
 Streaming.LoadSpecialCharacter('SMOKEV', 2)          
 Streaming.LoadSpecialCharacter('RYDER', 3)           
-Streaming.LoadSpecialCharacter('BB', 4)
+Streaming.LoadSpecialCharacter('SUZIE', 4)
 Streaming.LoadSpecialCharacter('PAUL', 5)                  
 Streaming.RequestModel(#M4)            
 Streaming.LoadAllModelsNow
@@ -78,28 +89,37 @@ if and
    Streaming.HasModelLoaded(#M4)
 goto_if_false @loadingmodels_0
 
+//==== Car 0
 Char.WarpIntoCar($PLAYER_ACTOR, Car0)
+Player.GetGroup(TempGroup, $PLAYER_CHAR)
+Group.SetLeader($PLAYER_ACTOR, TempGroup)
+//----------
 Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL01, Car0, 0)  
-Char.GiveWeapon(TempChar, 31, 999)
+Char.GiveWeapon(TempChar, 31, 999) 
+Group.SetMember(TempChar, TempGroup)   
+//----------
 
-Player.GetGroup(29@, $PLAYER_CHAR)
-Group.SetLeader($PLAYER_ACTOR, 29@) 
-Group.SetMember(TempChar, 29@)
-
-
-
+//==== Car 1
 Char.CreateInsideCar(Driver1, PedType_Gsf, #SPECIAL02, Car1)
-Group.Create(29@,4)
-Group.SetLeader(Driver1, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL03, Car1, 1)
+Char.GiveWeapon(Driver1, 31, 999)
+Group.Create(Group1, 0)
+Group.SetLeader(Driver1, Group1)
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL03, Car1, 1)  
+
 Char.GiveWeapon(TempChar, 31, 999)                               
-Group.SetMember(TempChar, 29@)
+Group.SetMember(TempChar, Group1)
+//----------
 Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL04, Car1, 2) 
+
 Char.GiveWeapon(TempChar, 31, 999)                                
-Group.SetMember(TempChar, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL05, Car1, 3)
+Group.SetMember(TempChar, Group1)
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL05, Car1, 3) 
+
 Char.GiveWeapon(TempChar, 31, 999)                              
-Group.SetMember(TempChar, 29@)
+Group.SetMember(TempChar, Group1)
+//----------
           
 Streaming.UnloadSpecialCharacter(1)
 Streaming.UnloadSpecialCharacter(2)
@@ -129,31 +149,49 @@ if and
    Streaming.HasSpecialCharacterLoaded(8)
 goto_if_false @loadingmodels_1
 
+//==== Car 2
 Char.CreateInsideCar(Driver2, PedType_Gsf, #SPECIAL01, Car2)
-Group.Create(29@,4)
-Group.SetLeader(Driver2, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL02, Car2, 0)  
-Char.GiveWeapon(TempChar, 31, 999)                                      
-Group.SetMember(TempChar, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL03, Car2, 1) 
-Char.GiveWeapon(TempChar, 31, 999)                                 
-Group.SetMember(TempChar, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL04, Car2, 2) 
-Char.GiveWeapon(TempChar, 31, 999)                                 
-Group.SetMember(TempChar, 29@)
+Char.GiveWeapon(Driver2, 31, 999)
+Group.Create(Group2, 0)
+Group.SetLeader(Driver2, Group2)
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL02, Car2, 0)
 
-Char.CreateInsideCar(Driver3, PedType_Gsf, #SPECIAL05, Car3)    
-Group.Create(29@,4)
-Group.SetLeader(Driver3, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL06, Car3, 0) 
+Char.GiveWeapon(TempChar, 31, 999)                                      
+Group.SetMember(TempChar, Group2)  
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL03, Car2, 1)   
+
 Char.GiveWeapon(TempChar, 31, 999)                                 
-Group.SetMember(TempChar, 29@)
+Group.SetMember(TempChar, Group2)   
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL04, Car2, 2) 
+
+Char.GiveWeapon(TempChar, 31, 999)                                 
+Group.SetMember(TempChar, Group2)  
+//----------
+               
+//==== Car 3
+Char.CreateInsideCar(Driver3, PedType_Gsf, #SPECIAL05, Car3)
+Char.GiveWeapon(Driver3, 31, 999)    
+Group.Create(Group3, 0)
+Group.SetLeader(Driver3, Group3) 
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL06, Car3, 0)
+ 
+Char.GiveWeapon(TempChar, 31, 999)                                 
+Group.SetMember(TempChar, Group3) 
+//----------
 Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL07, Car3, 1) 
+
 Char.GiveWeapon(TempChar, 31, 999)                                
-Group.SetMember(TempChar, 29@)
-Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL08, Car3, 2) 
+Group.SetMember(TempChar, Group3) 
+//----------
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL08, Car3, 2)
+ 
 Char.GiveWeapon(TempChar, 31, 999)                                 
-Group.SetMember(TempChar, 29@)
+Group.SetMember(TempChar, Group3) 
+//----------
 
 Streaming.UnloadSpecialCharacter(1)
 Streaming.UnloadSpecialCharacter(2)
@@ -165,28 +203,141 @@ Streaming.UnloadSpecialCharacter(7)
 Streaming.UnloadSpecialCharacter(8)
 Streaming.MarkModelAsNoLongerNeeded(#M4)
 
-
-//Car.WanderRandomly(Car0)     
+     
 Car.SetFollowCar(Car1, Car0, 10.0)
 Car.SetFollowCar(Car2, Car0, 18.0) 
 Car.SetFollowCar(Car3, Car0, 26.0)
-//Car.SetFollowCar(Car2, Car1, 10.0) 
-//Car.SetFollowCar(Car3, Car2, 20.0)
-//Car.SetDrivingStyle(Car0, 2)
 Car.SetDrivingStyle(Car1, 2)
 Car.SetDrivingStyle(Car2, 2)
 Car.SetDrivingStyle(Car3, 2)
-//Car.SetCruiseSpeed(Car0, 15.0)
 Car.SetCruiseSpeed(Car1, 80.0)
 Car.SetCruiseSpeed(Car2, 80.0)
 Car.SetCruiseSpeed(Car3, 80.0)
     
+:cjking
+wait 0
+if Pad.TestCheat("TTYY"):
+goto_if_false @cjking_1
+Player.GetCharIsTargeting(TempChar, $PLAYER_CHAR)
+if Char.DoesExist(TempChar)
+goto_if_false @aimed_at_none
+
+Text.PrintHelpString("Attack!") 
+Task.Say($PLAYER_ACTOR, 148)
+Task.KillCharOnFoot(Driver1, TempChar)
+Group.GetMember(31@, Group1, 0)
+Task.KillCharOnFoot(31@, TempChar)
+Group.GetMember(31@, Group1, 1)
+Task.KillCharOnFoot(31@, TempChar)
+Group.GetMember(31@, Group1, 2)
+Task.KillCharOnFoot(31@, TempChar)
+Task.KillCharOnFoot(Driver2, TempChar)
+Group.GetMember(31@, Group2, 0)
+Task.KillCharOnFoot(31@, TempChar)
+Group.GetMember(31@, Group2, 1)
+Task.KillCharOnFoot(31@, TempChar)
+Group.GetMember(31@, Group2, 2)
+Task.KillCharOnFoot(31@, TempChar)
+Task.KillCharOnFoot(Driver3, TempChar)
+Group.GetMember(31@, Group3, 0)
+Task.KillCharOnFoot(31@, TempChar)
+Group.GetMember(31@, Group3, 1)
+Task.KillCharOnFoot(31@, TempChar)
+Group.GetMember(31@, Group3, 2)
+Task.KillCharOnFoot(31@, TempChar)
+goto @cjking_1
+:aimed_at_none
+Text.PrintHelpString("Note: Aim at someone to attack")
+//https://gtaforums.com/topic/505421-gta-san-andreas-speech-id-list/ 
+
+:cjking_1
+if Pad.TestCheat("TTRR")
+goto_if_false @cjking_2
+
+if Char.IsInCar($PLAYER_ACTOR, Car0)
+goto_if_false @not_in_maincar
+Text.PrintHelpString("Get back in your cars and follow!")
+Task.Say($PLAYER_ACTOR, 151)
+Task.CarMission(Driver1, Car1, Car0, 53, 80.0, 2)
+Task.CarMission(Driver2, Car2, Car0, 53, 80.0, 2) 
+Task.CarMission(Driver3, Car3, Car0, 53, 80.0, 2) 
+Group.GetMember(31@, Group1, 0)
+Task.EnterCarAsPassenger(31@, Car1, 0, 5000)
+Group.GetMember(31@, Group1, 1)
+Task.EnterCarAsPassenger(31@, Car1, 1, 5000)
+Group.GetMember(31@, Group1, 2)
+Task.EnterCarAsPassenger(31@, Car1, 2, 5000)  
+Group.GetMember(31@, Group2, 0)
+Task.EnterCarAsPassenger(31@, Car2, 0, 5000)
+Group.GetMember(31@, Group2, 1)
+Task.EnterCarAsPassenger(31@, Car2, 1, 5000)
+Group.GetMember(31@, Group2, 2)
+Task.EnterCarAsPassenger(31@, Car2, 2, 5000)
+Group.GetMember(31@, Group3, 0)
+Task.EnterCarAsPassenger(31@, Car3, 0, 5000)
+Group.GetMember(31@, Group3, 1)
+Task.EnterCarAsPassenger(31@, Car3, 1, 5000)
+Group.GetMember(31@, Group3, 2)
+Task.EnterCarAsPassenger(31@, Car3, 2, 5000)
+wait 500
+Task.Say(Driver1, 35)
+Task.Say(Driver2, 35)
+Task.Say(Driver3, 35)
+goto @cjking_2     
+
+:not_in_maincar
+if Char.IsOnFoot($PLAYER_ACTOR)
+then
+Text.PrintHelpString("Follow me!") 
+Task.Say($PLAYER_ACTOR, 153)
+Char.ClearTasksImmediately(Driver1)
+Char.ClearTasksImmediately(Driver2)
+Char.ClearTasksImmediately(Driver3)
+Task.FollowFootsteps(Driver1, $PLAYER_ACTOR)
+Task.FollowFootsteps(Driver2, $PLAYER_ACTOR)
+Task.FollowFootsteps(Driver3, $PLAYER_ACTOR)
+Group.SetFollowStatus(Group1, True)           
+Group.SetFollowStatus(Group2, True)
+Group.SetFollowStatus(Group3, True)
+else
+Text.PrintHelpString("Note: Stay on foot or main car!")
+end
+
+
+:cjking_2
+if Pad.TestCheat("TTXX")
+goto_if_false @cjking        
+Text.PrintHelpString("See you guys later!")
+Task.Say($PLAYER_ACTOR, 149)
+Car.MarkAsNoLongerNeeded(Car0)
+Car.MarkAsNoLongerNeeded(Car1)
+Car.MarkAsNoLongerNeeded(Car2)
+Car.MarkAsNoLongerNeeded(Car3)
+Char.MarkAsNoLongerNeeded(Driver1)
+Char.MarkAsNoLongerNeeded(Driver2)
+Char.MarkAsNoLongerNeeded(Driver3)
+Player.GetGroup(TempGroup, $PLAYER_CHAR)    
+Group.GetMember(31@, TempGroup, 0)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group1, 0)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group1, 1)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group1, 2)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group2, 0)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group2, 1)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group2, 2)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group3, 0)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group3, 1)
+Char.MarkAsNoLongerNeeded(31@)
+Group.GetMember(31@, Group3, 2)
+Char.MarkAsNoLongerNeeded(31@)
+Group.Remove(Group1)
+Group.Remove(Group2)
+Group.Remove(Group3)
 goto @start
-
-
-
-
-
-
-
-                 
