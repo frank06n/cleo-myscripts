@@ -1,0 +1,192 @@
+// This file was decompiled using SASCM.ini published on 2022-03-20
+{$CLEO .cs}
+
+
+const
+    Car0 = 0@
+    Car1 = 1@
+    Car2 = 2@
+    Car3 = 3@
+    Driver0 = 4@
+    Driver1 = 5@
+    Driver2 = 6@
+    Driver3 = 7@
+    TempChar = 30@
+    PedType_Gsf = 8
+end                                                
+
+nop
+:start
+wait 0
+if Player.IsPlaying($PLAYER_CHAR)
+goto_if_false @start                                              
+
+wait 0
+if Pad.TestCheat("GANIM")
+goto_if_false @start
+
+:loadingmodels
+wait 0
+Streaming.RequestModel(#RNCHLURE)                
+Streaming.RequestModel(#SOLAIR)
+Streaming.RequestModel(#REGINA)
+Streaming.RequestModel(#SULTAN)
+Streaming.LoadAllModelsNow
+if and
+   Streaming.HasModelLoaded(#RNCHLURE)
+   Streaming.HasModelLoaded(#SOLAIR)
+   Streaming.HasModelLoaded(#REGINA)
+   Streaming.HasModelLoaded(#SULTAN)
+goto_if_false @loadingmodels
+                     
+Car.Create(Car0, #RNCHLURE, 2470.835449, -1670.696167, 13.463577)  
+Car.Create(Car1, #SOLAIR, 2474.892334, -1677.726440, 13.214235)   
+Car.Create(Car2, #REGINA, 2482.333496, -1681.776245, 13.130707)    
+Car.Create(Car3, #SULTAN, 2490.854248, -1682.505737, 13.041986)                                              
+Streaming.MarkModelAsNoLongerNeeded(#RNCHLURE)
+Streaming.MarkModelAsNoLongerNeeded(#SOLAIR)
+Streaming.MarkModelAsNoLongerNeeded(#REGINA)
+Streaming.MarkModelAsNoLongerNeeded(#SULTAN)
+Car.ChangeColor(Car0, 51, 4)    
+Car.ChangeColor(Car1, 51, 4)    
+Car.ChangeColor(Car2, 51, 4)   
+Car.ChangeColor(Car3, 51, 4)
+Car.SetHeading(Car0, 12.011706) 
+Car.SetHeading(Car1, 47.244877)  
+Car.SetHeading(Car2, 77.008003)  
+Car.SetHeading(Car3, 91.149849) 
+Car.SetProofs(Car0, True, True, True, True, True)
+Car.SetProofs(Car1, True, True, True, True, True)      
+Car.SetProofs(Car2, True, True, True, True, True)   
+Car.SetProofs(Car3, True, True, True, True, True)
+
+:loadingmodels_0
+wait 0  
+Streaming.LoadSpecialCharacter('SWEET', 1)   
+Streaming.LoadSpecialCharacter('SMOKEV', 2)          
+Streaming.LoadSpecialCharacter('RYDER', 3)           
+Streaming.LoadSpecialCharacter('BB', 4)
+Streaming.LoadSpecialCharacter('PAUL', 5)                  
+Streaming.RequestModel(#M4)            
+Streaming.LoadAllModelsNow
+if and   
+   Streaming.HasSpecialCharacterLoaded(1)
+   Streaming.HasSpecialCharacterLoaded(2)
+   Streaming.HasSpecialCharacterLoaded(3)
+   Streaming.HasSpecialCharacterLoaded(4)
+   Streaming.HasSpecialCharacterLoaded(5)
+   Streaming.HasModelLoaded(#M4)
+goto_if_false @loadingmodels_0
+
+Char.WarpIntoCar($PLAYER_ACTOR, Car0)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL01, Car0, 0)  
+Char.GiveWeapon(TempChar, 31, 999)
+
+Player.GetGroup(29@, $PLAYER_CHAR)
+Group.SetLeader($PLAYER_ACTOR, 29@) 
+Group.SetMember(TempChar, 29@)
+
+
+
+Char.CreateInsideCar(Driver1, PedType_Gsf, #SPECIAL02, Car1)
+Group.Create(29@,4)
+Group.SetLeader(Driver1, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL03, Car1, 1)
+Char.GiveWeapon(TempChar, 31, 999)                               
+Group.SetMember(TempChar, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL04, Car1, 2) 
+Char.GiveWeapon(TempChar, 31, 999)                                
+Group.SetMember(TempChar, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL05, Car1, 3)
+Char.GiveWeapon(TempChar, 31, 999)                              
+Group.SetMember(TempChar, 29@)
+          
+Streaming.UnloadSpecialCharacter(1)
+Streaming.UnloadSpecialCharacter(2)
+Streaming.UnloadSpecialCharacter(3)
+Streaming.UnloadSpecialCharacter(4)
+Streaming.UnloadSpecialCharacter(5)
+
+:loadingmodels_1
+wait 0                                 
+Streaming.LoadSpecialCharacter('CLAUDE', 1)
+Streaming.LoadSpecialCharacter('TORINO', 2) 
+Streaming.LoadSpecialCharacter('ROSE', 3)
+Streaming.LoadSpecialCharacter('ZERO', 4)
+Streaming.LoadSpecialCharacter('CESAR', 5)
+Streaming.LoadSpecialCharacter('KENDL', 6)
+Streaming.LoadSpecialCharacter('WUZIMU', 7)
+Streaming.LoadSpecialCharacter('TRUTH', 8)             
+Streaming.LoadAllModelsNow
+if and  
+   Streaming.HasSpecialCharacterLoaded(1)
+   Streaming.HasSpecialCharacterLoaded(2)
+   Streaming.HasSpecialCharacterLoaded(3)
+   Streaming.HasSpecialCharacterLoaded(4)
+   Streaming.HasSpecialCharacterLoaded(5)
+   Streaming.HasSpecialCharacterLoaded(6)
+   Streaming.HasSpecialCharacterLoaded(7)
+   Streaming.HasSpecialCharacterLoaded(8)
+goto_if_false @loadingmodels_1
+
+Char.CreateInsideCar(Driver2, PedType_Gsf, #SPECIAL01, Car2)
+Group.Create(29@,4)
+Group.SetLeader(Driver2, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL02, Car2, 0)  
+Char.GiveWeapon(TempChar, 31, 999)                                      
+Group.SetMember(TempChar, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL03, Car2, 1) 
+Char.GiveWeapon(TempChar, 31, 999)                                 
+Group.SetMember(TempChar, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL04, Car2, 2) 
+Char.GiveWeapon(TempChar, 31, 999)                                 
+Group.SetMember(TempChar, 29@)
+
+Char.CreateInsideCar(Driver3, PedType_Gsf, #SPECIAL05, Car3)    
+Group.Create(29@,4)
+Group.SetLeader(Driver3, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL06, Car3, 0) 
+Char.GiveWeapon(TempChar, 31, 999)                                 
+Group.SetMember(TempChar, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL07, Car3, 1) 
+Char.GiveWeapon(TempChar, 31, 999)                                
+Group.SetMember(TempChar, 29@)
+Char.CreateAsPassenger(TempChar, PedType_Gsf, #SPECIAL08, Car3, 2) 
+Char.GiveWeapon(TempChar, 31, 999)                                 
+Group.SetMember(TempChar, 29@)
+
+Streaming.UnloadSpecialCharacter(1)
+Streaming.UnloadSpecialCharacter(2)
+Streaming.UnloadSpecialCharacter(3)  
+Streaming.UnloadSpecialCharacter(4)
+Streaming.UnloadSpecialCharacter(5)
+Streaming.UnloadSpecialCharacter(6)
+Streaming.UnloadSpecialCharacter(7)
+Streaming.UnloadSpecialCharacter(8)
+Streaming.MarkModelAsNoLongerNeeded(#M4)
+
+
+//Car.WanderRandomly(Car0)     
+Car.SetFollowCar(Car1, Car0, 10.0)
+Car.SetFollowCar(Car2, Car0, 18.0) 
+Car.SetFollowCar(Car3, Car0, 26.0)
+//Car.SetFollowCar(Car2, Car1, 10.0) 
+//Car.SetFollowCar(Car3, Car2, 20.0)
+//Car.SetDrivingStyle(Car0, 2)
+Car.SetDrivingStyle(Car1, 2)
+Car.SetDrivingStyle(Car2, 2)
+Car.SetDrivingStyle(Car3, 2)
+//Car.SetCruiseSpeed(Car0, 15.0)
+Car.SetCruiseSpeed(Car1, 80.0)
+Car.SetCruiseSpeed(Car2, 80.0)
+Car.SetCruiseSpeed(Car3, 80.0)
+    
+goto @start
+
+
+
+
+
+
+
+                 

@@ -1,0 +1,65 @@
+{$CLEO .cs}
+
+const
+    CarHandle = 0@  
+    mFile = 1@
+    ModelId = 2@
+    primCol = 3@
+    secCol = 4@
+    posX = 5@
+    posY = 6@
+    posZ = 7@
+    heading = 8@
+    
+    FileMode_AppendText = "at+"
+end
+
+/** 
+ * On cheat typed "MUCUS"
+ * This script saves the 'details' of Vehicle in which Player is present
+ * model_id, pos(xyz), color(prim, sec), heading
+ */
+
+nop
+:start
+wait 0
+if Player.IsPlaying($PLAYER_CHAR)
+goto_if_false @start
+
+
+if Pad.TestCheat("MUCUS")
+goto_if_false @start
+
+File.Open(mFile, "cleo\\mucus.txt", FileMode_AppendText)
+File.WriteFormattedString("%c%cNew Entry%c", mFile, 0xA, 0xA, 0xA)
+
+if Char.IsInAnyCar($PLAYER_ACTOR)
+goto_if_false @close_file
+                              
+Char.StoreCarIsInNoSave(CarHandle, $PLAYER_ACTOR)
+Car.GetModel(ModelId, CarHandle)
+Car.GetColors(CarHandle, primCol, secCol)
+Car.GetCoordinates(CarHandle, posX, posY, posZ)
+Car.GetHeading(heading, CarHandle)
+File.WriteFormattedString("Car.Create(handle, %d, %f, %f, %f)%c", mFile, ModelId, posX, posY, posZ, 0xA)
+File.WriteFormattedString("Car.ChangeColor(handle, %d, %d)%c", mFile, primCol, secCol, 0xA)
+File.WriteFormattedString("Car.SetHeading(handle, %f)%c", mFile, heading, 0xA) 
+Text.PrintHelpString("Done")
+
+:close_file
+File.Close(mFile)
+goto @start
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 
