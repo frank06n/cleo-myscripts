@@ -1,0 +1,131 @@
+{$CLEO .cs}
+
+
+nop
+
+:begin
+repeat
+wait 0
+until Player.IsPlaying($PLAYER_CHAR)
+
+repeat
+wait 0
+until Pad.TestCheat("TTTRRR")
+
+Camera.DoFade(0, 500)
+wait 500
+
+Char.Create(0@, 4, #MALE01, -2577.4133 2300.5808 5.9555)
+Char.SetHeading(0@, 279.0743)
+
+Char.SetCoordinates($PLAYER_ACTOR, -2575.9985, 2300.9937, 5.8062)
+Char.SetHeading($PLAYER_ACTOR, 100.3265)
+Char.SetCurrentWeapon($PLAYER_ACTOR, 0)
+
+Player.SetControl($PLAYER_CHAR, false)
+
+wait 1000
+
+Camera.DoFade(1, 1000)
+Camera.SetVectorMove(-2569.311035 2292.109131 6.418467, -2570.253174 2304.872070 5.018468, 14000, true)
+Camera.SetVectorTrack(-2570.058105 2292.769775 6.493217, -2571.073975 2304.327637 5.190774, 14000, true)
+Task.LookAtChar($PLAYER_ACTOR, 0@, 14000)
+wait 1000
+
+0605: actor 0@ perform_animation "IDLE_chat" from_ifp_file "PED" speed 4.0 loop 0 lockX 1 lockY 1 lockFrame 0 time 10000
+Char.StartFacialTalk(0@, 10000)
+Text.PrintString("It's been a long time aye Cj?", 3500)
+wait 3500
+Text.PrintString("you better not forget me nigga..", 3500)
+wait 3500
+Text.PrintString("thing is I have a job for ya", 3500)
+wait 3000
+Char.StopFacialTalk(0@)
+0605: actor 0@ perform_animation "endchat_01" from_ifp_file "PED" speed 4.0 loop 0 lockX 1 lockY 1 lockFrame 0 time -1
+wait 1500
+Camera.DoFade(0, 750)
+wait 750
+
+Char.Delete(0@)
+Char.SetCoordinates($PLAYER_ACTOR, -2573.7163, 2300.9287, 5.4239)
+Char.SetHeading($PLAYER_ACTOR, 273.7701)
+
+wait 700
+Camera.DoFade(1, 750)
+wait 250
+Player.SetControl($PLAYER_CHAR, true)
+
+jump @begin
+
+
+//0947: actor 0@ speak_from_audio_table 10 store_spoken_phrase_id_to 2@
+//05C1: AS_actor 0@ speak_from_audio_table 230
+
+//Char.SetSayScript()
+//
+//0947: actor $PLAYER_ACTOR speak_from_audio_table 353 store_spoken_phrase_id_to $2563
+//Char.SetSayContext()
+//
+//09D5: unknown_get_actor 35@ unknown 345 flags 1 0 0 store_to 256@ // extended 0947
+//char.SetSayContextImportant()
+//
+//05C1: AS_actor -1 speak_from_audio_table 230
+//task.Say()
+//
+//0717: assign_actor 55@ to_dialogue_mode
+//conversation.StartSettingUp(
+
+/*
+:checkCanEmote
+if and
+0AB0:   key_pressed PrimKey 
+8449:   not actor $PLAYER_ACTOR in_a_car 
+847A:   not actor $PLAYER_ACTOR driving_bike 
+84A7:   not actor $PLAYER_ACTOR driving_boat 
+84C8:   not actor $PLAYER_ACTOR driving_flying_vehicle 
+84A9:   not actor $PLAYER_ACTOR driving_heli
+jf @begin
+
+IFP_name = "WOP" // @v = string
+Anim_name = "DANCE_G1" // @v = string
+
+IFP_name = "GFUNK" // @v = string
+Anim_name = "DANCE_G1" // @v = string
+
+IFP_name = "RUNNINGMAN" // @v = string
+Anim_name = "DANCE_G1" // @v = string
+
+
+:loadAnim
+04ED: load_animation IFP_name
+
+:checkAnimLoaded
+wait 0 ms
+if
+    04EE: animation IFP_name loaded // error if variable used
+jf @checkAnimLoaded
+    0605: actor $PLAYER_ACTOR perform_animation Anim_name from_ifp_file IFP_name speed 4.0 loop 0 lockX 1 lockY 1 lockFrame 0 time -1 // versionA
+    Player.CanMove($PLAYER_CHAR) = True
+    04EF: release_animation IFP_name
+jump @begin
+ */
+
+
+
+
+//
+//0615: define_AS_pack_begin 3@
+//0605: actor -1 perform_animation_sequence "SEAT_down" from_file "PED"  4.0  0  0  0  1   -1 ms  
+//0605: actor -1 perform_animation_sequence "SEAT_idle" from_file "PED"  4.0  0  0  0  1 5000 ms
+//0605: actor -1 perform_animation_sequence "SEAT_up"   from_file "PED"  4.0  0  0  0  1   -1 ms
+//0616: define_AS_pack_end 3@
+//0618: assign_actor $PLAYER_ACTOR to_AS_pack 3@
+//
+//06B0: AS_actor $PLAYER_ACTOR sit_down 5000 ms
+//04EB: AS_actor $PLAYER_ACTOR crouch 0
+//0792: disembark_instantly_actor $PLAYER_ACTOR
+
+
+
+
+

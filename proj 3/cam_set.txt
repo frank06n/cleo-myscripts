@@ -1,0 +1,153 @@
+{$CLEO .cs}
+
+const
+    temp_x = 0@
+    temp_y = 1@
+    temp_z = 2@
+    init_px = 3@
+    init_py = 4@
+    init_pz = 5@
+    init_lx = 6@
+    init_ly = 7@
+    init_lz = 8@
+    mtime = 9@
+    end_px = 10@
+    end_py = 11@
+    end_pz = 12@
+    end_lx = 13@
+    end_ly = 14@
+    end_lz = 15@
+    mfile = 20@
+    
+    NEW_LINE = 21@
+    
+    FLAG_APPEND = 97
+end
+// FLAG_READ_BINARY = 25202 = (98) * 2^8 + (114) = b r
+// FLAG_WRITE_BINARY = b w = (98) * 2^8 + (119) = 25207
+
+var
+    mtime : Int 
+    temp_x = Float
+    temp_y = Float
+    temp_z = Float
+    init_px = Float
+    init_py = Float
+    init_pz = Float
+    init_lx = Float
+    init_ly = Float
+    init_lz = Float
+    end_px = Float
+    end_py = Float
+    end_pz = Float
+    end_lx = Float
+    end_ly = Float
+    end_lz = Float
+    NEW_LINE = Int
+end
+
+nop
+:begin
+repeat 
+wait 0
+until Player.IsPlaying($PLAYER_CHAR)
+
+repeat
+wait 0
+until test_cheat "CAMSAVE"
+
+Text.PrintHelpString("Entered CAM SAVE mode")
+mtime = 10000
+NEW_LINE = 3338 // 13<<8 + 10
+
+:cam_saver_mode
+if test_cheat "CCC"
+then
+    Text.PrintHelpString("Left CAM SAVE mode")
+    jump @begin
+end
+
+if
+    is_key_pressed 80  // p key
+then
+    Camera.GetActiveCoordinates(temp_x, temp_y, temp_z)
+    File.Open(mfile, "CLEO\maka.INI", FLAG_APPEND)
+    File.WriteFormattedString("Cam pos: %f %f %f" mfile temp_x temp_y temp_z)   
+    File.Write(mfile, 1, NEW_LINE) 
+    File.Close(mfile)
+    Text.PrintHelpString("Camera Position saved")
+    wait 500
+end
+if
+    is_key_pressed 81  // q key
+then
+    Camera.GetActivePointAt(temp_x, temp_y, temp_z)
+    File.Open(mfile, "CLEO\maka.INI", FLAG_APPEND) 
+    File.WriteFormattedString("Cam look at: %f %f %f" mfile temp_x temp_y temp_z)
+    File.Write(mfile, 1, NEW_LINE) 
+    File.Close(mfile)
+    Text.PrintHelpString("Camera Look at saved")
+    wait 500
+end
+                           
+
+if
+    is_key_pressed 86  // v key
+then                            
+    Camera.GetActiveCoordinates(init_px, init_py, init_pz)
+    Camera.GetActivePointAt(init_lx, init_ly, init_lz)
+    Text.PrintHelpString("Initial stored")
+    wait 200
+end
+
+if
+    is_key_pressed 66  // b key
+then                            
+    Camera.GetActiveCoordinates(end_px, end_py, end_pz)
+    Camera.GetActivePointAt(end_lx, end_ly, end_lz)
+    Text.PrintHelpString("Ending stored")
+    wait 200
+end
+
+if
+    is_key_pressed 78  // n key
+then                            
+    mtime -= 1000
+    Text.PrintHelpFormatted("Time set: %d", mtime)
+    wait 200
+end
+if
+    is_key_pressed 77  // m key
+then                                           
+    mtime += 1000
+    Text.PrintHelpFormatted("Time set: %d", mtime)
+    wait 200
+end
+if
+    is_key_pressed 72  // h key  
+then                                           
+    Camera.PersistPos(true)                    
+    Camera.PersistTrack(true)
+    Camera.SetVectorMove(init_px init_py init_pz, end_px end_py end_pz, mtime, true)
+    Camera.SetVectorTrack(init_lx init_ly init_lz, end_lx end_ly end_lz, mtime, true)
+    wait mtime
+    wait 2000                      
+    Camera.PersistPos(false)                    
+    Camera.PersistTrack(false)
+    Camera.RestoreJumpcut()    
+end
+if
+    is_key_pressed 74  // j key
+then                                            
+    File.Open(mfile, "CLEO\maka.INI", FLAG_APPEND)
+    File.WriteFormattedString("Camera.SetVectorMove(%f %f %f, %f %f %f, %d, true)", mfile, init_px init_py init_pz, end_px end_py end_pz, mtime)
+    File.Write(mfile, 1, NEW_LINE) 
+    File.WriteFormattedString("Camera.SetVectorTrack(%f %f %f, %f %f %f, %d, true)", mfile, init_lx init_ly init_lz, end_lx end_ly end_lz, mtime)
+    File.Write(mfile, 1, NEW_LINE)   
+    File.Close(mfile) 
+    Text.PrintHelpString("Saved Camera animation")
+    wait 200
+end
+    
+wait 0
+jump @cam_saver_mode

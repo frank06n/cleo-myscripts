@@ -1,0 +1,112 @@
+{$CLEO .cs}
+
+nop 
+
+:Noname_2
+wait 0
+  Player.IsPlaying($PLAYER_CHAR)
+goto_if_false @Noname_2
+
+:Noname_18
+wait 0
+  Pad.TestCheat("CAMSAVE")
+goto_if_false @Noname_18
+Text.PrintHelpString("Entered CAM SAVE mode")
+9@ = 10000
+21@ = 3338
+
+:Noname_81
+if 
+  Pad.TestCheat("CCC")
+goto_if_false @Noname_128
+Text.PrintHelpString("Left CAM SAVE mode")
+goto @Noname_2
+
+:Noname_128
+if 
+  Pad.IsKeyPressed(KeyCode.P)
+goto_if_false @Noname_255
+Camera.GetActiveCoordinates(0@, 1@, 2@)
+  File.Open(20@, "CLEO\maka.INI", 97)
+File.WriteFormattedString("Cam pos: %f %f %f", 20@, 0@, 1@, 2@)
+File.Write(20@, 1, 21@)
+File.Close(20@)
+Text.PrintHelpString("Camera Position saved")
+wait 500
+
+:Noname_255
+if 
+  Pad.IsKeyPressed(KeyCode.Q)
+goto_if_false @Noname_385
+Camera.GetActivePointAt(0@, 1@, 2@)
+  File.Open(20@, "CLEO\maka.INI", 97)
+File.WriteFormattedString("Cam look at: %f %f %f", 20@, 0@, 1@, 2@)
+File.Write(20@, 1, 21@)
+File.Close(20@)
+Text.PrintHelpString("Camera Look at saved")
+wait 500
+
+:Noname_385
+if 
+  Pad.IsKeyPressed(KeyCode.V)
+goto_if_false @Noname_445
+Camera.GetActiveCoordinates(3@, 4@, 5@)
+Camera.GetActivePointAt(6@, 7@, 8@)
+Text.PrintHelpString("Initial stored")
+wait 200
+
+:Noname_445
+if 
+  Pad.IsKeyPressed(KeyCode.B)
+goto_if_false @Noname_504
+Camera.GetActiveCoordinates(10@, 11@, 12@)
+Camera.GetActivePointAt(13@, 14@, 15@)
+Text.PrintHelpString("Ending stored")
+wait 200
+
+:Noname_504
+if 
+  Pad.IsKeyPressed(KeyCode.N)
+goto_if_false @Noname_552
+9@ -= 1000
+Text.PrintHelpFormatted("Time set: %d", 9@)
+wait 200
+
+:Noname_552
+if 
+  Pad.IsKeyPressed(KeyCode.M)
+goto_if_false @Noname_600
+9@ += 1000
+Text.PrintHelpFormatted("Time set: %d", 9@)
+wait 200
+
+:Noname_600
+if 
+  Pad.IsKeyPressed(KeyCode.H)
+goto_if_false @Noname_693
+Camera.PersistPos(True)
+Camera.PersistTrack(True)
+Camera.SetVectorMove(3@, 4@, 5@, 10@, 11@, 12@, 9@, True)
+Camera.SetVectorTrack(6@, 7@, 8@, 13@, 14@, 15@, 9@, True)
+wait 9@
+wait 2000
+Camera.PersistPos(False)
+Camera.PersistTrack(False)
+Camera.RestoreJumpcut
+
+:Noname_693
+if 
+  Pad.IsKeyPressed(KeyCode.J)
+goto_if_false @Noname_945
+  File.Open(20@, "CLEO\maka.INI", 97)
+File.WriteFormattedString("Camera.SetVectorMove(%f %f %f, %f %f %f, %d, true)", 20@, 3@, 4@, 5@, 10@, 11@, 12@, 9@)
+File.Write(20@, 1, 21@)
+File.WriteFormattedString("Camera.SetVectorTrack(%f %f %f, %f %f %f, %d, true)", 20@, 6@, 7@, 8@, 13@, 14@, 15@, 9@)
+File.Write(20@, 1, 21@)
+File.Close(20@)
+Text.PrintHelpString("Saved Camera animation")
+wait 200
+
+:Noname_945
+wait 0
+goto @Noname_81

@@ -1,0 +1,100 @@
+{$CLEO .cs}
+{$USE ini} 
+
+const
+    temp_x = 0@
+    temp_y = 1@
+    temp_z = 2@
+    init_px = 3@
+    init_py = 4@
+    init_pz = 5@
+    init_lx = 6@
+    init_ly = 7@
+    init_lz = 8@
+    mtime = 9@
+    end_px = 10@
+    end_py = 11@
+    end_pz = 12@
+    end_lx = 13@
+    end_ly = 14@
+    end_lz = 15@
+    mfile = 20@
+    
+    NEW_LINE = 21@
+    
+    FLAG_APPEND = 97
+end
+// FLAG_READ_BINARY = 25202 = (98) * 2^8 + (114) = b r
+// FLAG_WRITE_BINARY = b w = (98) * 2^8 + (119) = 25207
+
+var
+    mtime : Int 
+    temp_x = Float
+    temp_y = Float
+    temp_z = Float
+    init_px = Float
+    init_py = Float
+    init_pz = Float
+    init_lx = Float
+    init_ly = Float
+    init_lz = Float
+    end_px = Float
+    end_py = Float
+    end_pz = Float
+    end_lx = Float
+    end_ly = Float
+    end_lz = Float
+    NEW_LINE = Int
+end
+
+nop
+:begin
+repeat 
+wait 0
+until Player.IsPlaying($PLAYER_CHAR)
+
+repeat
+wait 0
+until test_cheat "CAMSAVE"
+
+Text.PrintHelpString("Entered CAM SAVE mode")
+mtime = 10000
+NEW_LINE = 3338 // 13<<8 + 10
+
+:cam_saver_mode
+if test_cheat "CCC"
+then
+    Text.PrintHelpString("Left CAM SAVE mode")
+    goto @begin
+end
+               
+
+if
+    is_key_pressed 86  // v key
+then                            
+    Camera.GetActiveCoordinates(init_px, init_py, init_pz)
+    Camera.GetActivePointAt(init_lx, init_ly, init_lz)
+    
+    IniFile.ReadInt(0@, "cleo\cam_set.ini", "snapshot", "lastix")
+    0@ += 1
+    IniFile.WriteInt(0@, "cleo\cam_set.ini", "snapshot", "lastix")
+    0AD3: 1@v = string_format "%d_px" 0@ 
+    IniFile.WriteFloat(init_px, "cleo\cam_set.ini", "snapshot", 1@v)
+    0AD3: 1@v = string_format "%d_py" 0@ 
+    IniFile.WriteFloat(init_py, "cleo\cam_set.ini", "snapshot", 1@v)
+    0AD3: 1@v = string_format "%d_pz" 0@ 
+    IniFile.WriteFloat(init_pz, "cleo\cam_set.ini", "snapshot", 1@v)
+    0AD3: 1@v = string_format "%d_lx" 0@ 
+    IniFile.WriteFloat(init_lx, "cleo\cam_set.ini", "snapshot", 1@v)
+    0AD3: 1@v = string_format "%d_ly" 0@ 
+    IniFile.WriteFloat(init_ly, "cleo\cam_set.ini", "snapshot", 1@v)
+    0AD3: 1@v = string_format "%d_lz" 0@ 
+    IniFile.WriteFloat(init_lz, "cleo\cam_set.ini", "snapshot", 1@v)
+    
+    Text.PrintHelpFormatted("Cam snapshot id:%d", 0@)
+    Text.PrintHelpString("Saved Camera snapshot")
+    wait 200
+end
+    
+wait 0
+goto @cam_saver_mode
